@@ -4,11 +4,13 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dev": "nodemon --exec electron ."
   },
   "author": "LaupWing",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^9.0.4"
+    "electron": "^9.0.4",
+    "nodemon": "^2.0.4"
   }
 }
