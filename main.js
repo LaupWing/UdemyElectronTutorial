@@ -15,8 +15,14 @@ function createMainWindow(){
         height: 600,
         icon: './assets/icons/Icon_256x256.png',
         backgroundColor: 'orange',
-        resizable: isDev
+        resizable: isDev,
+        webPreferences:{
+            nodeIntegration: true
+        }
     });
+    if(isDev){
+        mainWindow.webContents.openDevTools();
+    }
     mainWindow.loadFile('./app/index.html');
 }
 function createAboutWindow(){
