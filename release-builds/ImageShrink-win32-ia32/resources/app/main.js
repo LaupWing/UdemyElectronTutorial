@@ -20,7 +20,7 @@ function createMainWindow(){
         title: 'ImageShrink',
         width: 500,
         height: 600,
-        icon: './assets/icons/Icon_256x256.png',
+        icon: path.join(__dirname,'./assets/icons/Icon_256x256.png'),
         backgroundColor: 'orange',
         resizable: isDev,
         webPreferences:{
@@ -37,11 +37,12 @@ function createAboutWindow(){
         title: 'ImageShrink',
         width: 500,
         height: 600,
-        icon: './assets/icons/Icon_256x256.png',
+        icon:  path.join(__dirname,'./assets/icons/Icon_256x256.png'),
         resizable: false
     });
     aboutWindow.loadFile('./app/about.html');
 }
+console.log(__dirname);
 
 const menu = [
     ...(isMac ? [
