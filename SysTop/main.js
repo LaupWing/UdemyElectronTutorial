@@ -10,62 +10,61 @@ const isMac = process.platform === 'darwin' ? true : false
 let mainWindow
 
 function createMainWindow() {
-  mainWindow = new BrowserWindow({
-    title: 'APP NAME',
-    width: isDev ? 800 : 500,
-    height: 600,
-    icon: './assets/icons/icon.png',
-    resizable: isDev ? true : false,
-    backgroundColor: 'white',
-    webPreferences: {
-      nodeIntegration: true,
-    },
-  })
+    mainWindow = new BrowserWindow({
+        title: 'SysTop',
+        width: isDev ? 780 : 355,
+        height: 500,
+        icon: './assets/icons/icon.png',
+        resizable: isDev ? true : false,
+        webPreferences: {
+        nodeIntegration: true,
+        },
+    })
 
-  if (isDev) {
-    mainWindow.webContents.openDevTools()
-  }
+    if (isDev) {
+        mainWindow.webContents.openDevTools()
+    }
 
-  mainWindow.loadFile('./app/index.html')
+    mainWindow.loadFile('./app/index.html')
 }
 
 app.on('ready', () => {
-  createMainWindow()
+    createMainWindow()
 
-  const mainMenu = Menu.buildFromTemplate(menu)
-  Menu.setApplicationMenu(mainMenu)
+    const mainMenu = Menu.buildFromTemplate(menu)
+    Menu.setApplicationMenu(mainMenu)
 })
 
 const menu = [
-  ...(isMac ? [{ role: 'appMenu' }] : []),
-  {
-    role: 'fileMenu',
-  },
-  ...(isDev
-    ? [
-        {
-          label: 'Developer',
-          submenu: [
-            { role: 'reload' },
-            { role: 'forcereload' },
-            { type: 'separator' },
-            { role: 'toggledevtools' },
-          ],
-        },
-      ]
-    : []),
+    ...(isMac ? [{ role: 'appMenu' }] : []),
+    {
+        role: 'fileMenu',
+    },
+    ...(isDev
+        ? [
+            {
+            label: 'Developer',
+            submenu: [
+                { role: 'reload' },
+                { role: 'forcereload' },
+                { type: 'separator' },
+                { role: 'toggledevtools' },
+            ],
+            },
+        ]
+        : []),
 ]
 
 app.on('window-all-closed', () => {
-  if (!isMac) {
-    app.quit()
-  }
+    if (!isMac) {
+        app.quit()
+    }
 })
 
 app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createMainWindow()
-  }
+    if (BrowserWindow.getAllWindows().length === 0) {
+        createMainWindow()
+    }
 })
 
 app.allowRendererProcessReuse = true
