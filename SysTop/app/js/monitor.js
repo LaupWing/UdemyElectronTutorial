@@ -4,10 +4,22 @@ const cpu = osu.cpu;
 const mem = osu.mem;
 const os = osu.os;
 
+let cpuOverload = 8;
+
 setInterval(() => {
     cpu.usage()
         .then(info=>{
             document.getElementById('cpu-usage').innerText = info + '%';
+            document.getElementById('cpu-progress').style.width = info + '%'
+
+            console.log(info>cpuOverload)
+            if(info > cpuOverload){
+                document.getElementById('cpu-progress').style.background = 'red';
+            }else{
+                if(document.getElementById('cpu-progress').style.background){
+                    document.getElementById('cpu-progress').style.removeProperty('background');
+                }
+            }
         });
     cpu.free()
         .then(info=>{
