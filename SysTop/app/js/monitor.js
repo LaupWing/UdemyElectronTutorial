@@ -12,7 +12,6 @@ setInterval(() => {
             document.getElementById('cpu-usage').innerText = info + '%';
             document.getElementById('cpu-progress').style.width = info + '%'
 
-            console.log(info>cpuOverload)
             if(info > cpuOverload){
                 document.getElementById('cpu-progress').style.background = 'red';
             }else{
