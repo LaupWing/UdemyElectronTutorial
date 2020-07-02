@@ -4,7 +4,13 @@ const cpu = osu.cpu;
 const mem = osu.mem;
 const os = osu.os;
 
-let cpuOverload = 8;
+let cpuOverload = 80;
+
+notifyUser({
+    title: 'CPU Overload',
+    body: `CPU is over ${cpuOverload}%`,
+    icon: path.join(__dirname, 'img', 'icon.png')
+});
 
 setInterval(() => {
     cpu.usage()
@@ -44,4 +50,8 @@ function secondsToDhms(seconds){
     const m = Math.floor((seconds%3600 *24)/60);
     const s = Math.floor(seconds%60);
     return `${d}d, ${h}h, ${m}m, ${s}s,`
+}
+
+function notifyUser(options){
+    new Notification(options.title, options);
 }
