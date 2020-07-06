@@ -4,6 +4,7 @@ const log = require('electron-log');
 const Store = require('./Store');
 // Set env
 process.env.NODE_ENV = 'development'
+const MainWindow = require('./MainWindow') 
 
 const isDev = process.env.NODE_ENV !== 'production' ? true : false
 const isMac = process.platform === 'darwin' ? true : false
@@ -22,24 +23,7 @@ const store = new Store({
 });
 
 function createMainWindow() {
-    mainWindow = new BrowserWindow({
-        title: 'SysTop',
-        width: isDev ? 780 : 355,
-        height: 500,
-        icon: './assets/icons/icon.png',
-        resizable: isDev ? true : false,
-        show: false,
-        opacity: .9,
-        webPreferences: {
-            nodeIntegration: true,
-        },
-    })
-
-    if (isDev) {
-        mainWindow.webContents.openDevTools()
-    }
-
-    mainWindow.loadFile('./app/index.html')
+    mainWindow = new MainWindow('./app/index.html', isDev);
 }
 
 app.on('ready', () => {
