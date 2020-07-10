@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button'
 import Badge from 'react-bootstrap/Badge'
 import Moment from 'react-moment'
 
-export default function LogItem({log:{_id, priority, user, text, created}}) {
+export default function LogItem({deleteItem, log:{_id, priority, user, text, created}}) {
     const setVariant = ()=>{
         if(priority=== 'high'){
             return 'danger'
@@ -23,6 +23,7 @@ export default function LogItem({log:{_id, priority, user, text, created}}) {
                 <Button
                     variant='danger'
                     size='sm'
+                    onClick={()=>deleteItem(_id)}
                 > 
                     X
                 </Button>
