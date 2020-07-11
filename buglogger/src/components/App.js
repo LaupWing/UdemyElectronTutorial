@@ -24,7 +24,8 @@ const App = () => {
     }, [])
 
     function deleteItem(_id){
-        setLogs(logs.filter(x=>x._id !== _id))
+        // setLogs(logs.filter(x=>x._id !== _id))
+        ipcRenderer.send('logs:delete', _id)
         showAlert('Log Removed')
     }
 
@@ -33,9 +34,6 @@ const App = () => {
             showAlert('Please Enter All Fields', 'danger')
             return
         }
-        // item._id = Math.floor(Math.random()*90000) + 10000
-        // item.created = new Date().toString()
-        // setLogs([...logs, item])
         ipcRenderer.send('logs:add', item)
 
         showAlert('Log Added')

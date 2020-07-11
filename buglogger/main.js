@@ -80,6 +80,15 @@ ipcMain.on('logs:add', async (e, item)=>{
     }
 })
 
+ipcMain.on('logs:delete', async (e, _id)=>{
+    try{
+        await Log.findByIdAndDelete(_id)
+        sendLogs()
+    }catch(e){
+        console.log(e)
+    }
+})
+
 async function sendLogs(){
     try{
         const logs = await Log.find().sort({created: 1})
