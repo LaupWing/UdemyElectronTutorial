@@ -1,6 +1,6 @@
 const path = require('path')
 const url = require('url')
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 const connectDB = require('./config/db')
 const Log = require('./models/Log')
 
@@ -8,6 +8,7 @@ let mainWindow
 connectDB()
 
 let isDev = false
+const isMac = process.platform === 'darwin'
 
 if (
 	process.env.NODE_ENV !== undefined &&
@@ -68,7 +69,42 @@ function createMainWindow() {
 	mainWindow.on('closed', () => (mainWindow = null))
 }
 
-app.on('ready', createMainWindow)
+app.on('ready', ()=> {
+    createMainWindow()
+
+    const mainMenu = Menu.buildFromTemplate(menu)
+    Menu.setApplicationMenu(mainMenu)
+})
+
+const menu = [
+    ...(isMac ? [{role: 'appMenu'}]:[]),
+    {
+        role: 'fileMenu'
+    },
+    {
+        role: 'editMenu'
+    },
+    {
+        label: 'Logs',
+        submenu:[
+            {
+                label: 'Clear Logs',
+                click: ()=>clearLogs()
+            }
+        ]
+    },
+    ...(isDev ? [
+        {
+            label: 'Developer',
+            submenu:[
+                { role: 'reload'},
+                { role: 'forcereload'},
+                { role: 'separator'},
+                { role: 'toggledevtools'},
+            ]
+        }
+    ] :[])
+]
 
 ipcMain.on('logs:load', sendLogs)
 ipcMain.on('logs:add', async (e, item)=>{
@@ -93,6 +129,15 @@ async function sendLogs(){
     try{
         const logs = await Log.find().sort({created: 1})
         mainWindow.webContents.send('logs:get', JSON.stringify(logs))
+    }catch(e){
+        console.log(e)
+    }
+}
+
+async function clearLogs(){
+    try{
+        await Log.deleteMany({})
+        mainWindow.webContents.send('logs:clear')
     }catch(e){
         console.log(e)
     }

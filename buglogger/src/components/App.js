@@ -21,6 +21,11 @@ const App = () => {
         ipcRenderer.on('logs:get', (e,logs)=>{
             setLogs(JSON.parse(logs))
         })
+
+        ipcRenderer.on('logs:clear',()=>{
+            showAlert('Logs Cleared')
+            setLogs([])
+        })
     }, [])
 
     function deleteItem(_id){
