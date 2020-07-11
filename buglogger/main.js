@@ -71,6 +71,14 @@ function createMainWindow() {
 app.on('ready', createMainWindow)
 
 ipcMain.on('logs:load', sendLogs)
+ipcMain.on('logs:add', async (e, item)=>{
+    try{
+        await Log.create(item)
+        sendLogs()
+    }catch(e){
+        console.log(e)
+    }
+})
 
 async function sendLogs(){
     try{
